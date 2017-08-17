@@ -1,0 +1,4 @@
+/tests/*
+/coverage
+/build
+/src/store/mocks

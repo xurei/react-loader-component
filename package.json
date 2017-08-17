@@ -1,0 +1,47 @@
+{
+  "name": "redux-loader-component",
+  "version": "1.0.0",
+  "description": "A React higher order component that dispatches actions and renders loading/error states",
+  "main": "src/redux-loader.js",
+  "scripts": {
+    "pretest": "node_modules/.bin/eslint .",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register tests",
+    "coverage": "node_modules/.bin/babel-node ./node_modules/.bin/isparta cover --include 'src/**/*.js' _mocha -- --reporter dot tests",
+    "postcoverage": "node_modules/.bin/codecov",
+    "preversion": "npm test",
+    "precompile": "npm test",
+    "compile": "rimraf lib/* && babel src -d lib",
+    "prepublish": "npm run compile"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "rest",
+    "api",
+    "loading",
+    "load"
+  ],
+  "author": "Olivier Bourdoux",
+  "license": "MIT",
+  "dependencies": {
+    "deep-eql": "^3.0.0",
+    "prop-types": "^15.5.10",
+    "react": "^15.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "chai": "^4.1.1",
+    "codecov": "^2.3.0",
+    "eslint": "^3.19.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.0.1",
+    "eslint-plugin-security": "^1.3.0",
+    "isparta": "^4.0.0",
+    "mocha": "^3.5.0",
+    "rimraf": "^2.6.1"
+  }
+}
