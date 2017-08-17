@@ -1,10 +1,10 @@
-# redux-loader-component
+# react-loader-component
 
 A React higher order component that dispatches actions and renders loading/error states
 
 ## Usage
 ```javascript
-const ReduxLoader = require('redux-loader-component');
+const ReactLoader = require('react-loader-component');
 const reduxActions = require('./my-redux-actions');
 const store = require('./my-redux-store');
 
@@ -12,7 +12,7 @@ class MyPureComponent extends React.Component {
     /* ... */
 }
 
-MyPureComponent = ReduxLoader({
+MyPureComponent = ReactLoader({
     component: MyPureComponent,
     componentDidMount: (props) => {
         store.dispatch(reduxActions.myAction(props.some_data));
@@ -24,35 +24,38 @@ MyPureComponent = ReduxLoader({
 
 ### API
 
-#### `ReduxLoader(options)`
+#### `ReactLoader(options)`
 - `options` : Object
-  - `component` : 
+  - `component` **required** : 
   
-    *required* component to render when the state of the store matches `isLoaded`
+    component to render when the state of the store matches `isLoaded`.
+    The props passed to the loader are forwarded to the component.
     
   - `errorComponent` : 
   
-    component to render when the state of the store matches `isError`
+    component to render when the state of the store matches `isError`.
+    The props passed to the loader are forwarded to the error component.
     
   - `loadingComponent` : 
   
-    component to render when the state of the store does not match `isError` nor `isLoading`
+    component to render when the state of the store does not match `isError` nor `isLoading` (typically, the "loading" state).
+    The props passed to the loader are forwarded to the error component.
     
   - `componentDidMount(props)` : 
   
-    function called when the loader is mounted. Typically the place where you put you `dispatch()` methods.
+    function called when the component is mounted. Typically the place where you put you `dispatch()` methods.
     
   - `componentWillUnmount(props)` : 
   
-    function called when the loader is unmounted. Can be used to clean up your store.
+    function called when the component is unmounted. Can be used to clean up your store.
     
   - `isLoaded(props)` : 
   
-    defines the condition on the props to render the `component`
+    defines the condition on the props to render the `component`.
     
   - `isError(props)` : 
   
-    defines the condition on the props to render the `errorComponent`
+    defines the condition on the props to render the `errorComponent`.
     
     
 ### Examples
@@ -60,7 +63,7 @@ MyPureComponent = ReduxLoader({
 #### With [redux-api](https://www.npmjs.com/package/redux-api)
 ```javascript
 const LoadingView = require('./my-loading-view');
-MyComponent = ReduxLoader({
+MyComponent = ReactLoader({
     component: MyComponent,
     errorComponent: (props) => (<div>An error occured : {JSON.stringify(props.rest_endpoint.error)}</div>),
     loadingComponent: LoadingView,
@@ -80,7 +83,7 @@ You can find an example using [redux-api](https://www.npmjs.com/package/redux-ap
 
 Using this example, you can call the loader like this :
 ```javascript
-const ReduxLoader = require('redux-loader-component');
+const ReactLoader = require('react-loader-component');
 const reduxActions = require('./my-redux-actions');
 const store = require('./my-redux-store');
 const ReduxApiLoader = require('./redux-api-loader-component');

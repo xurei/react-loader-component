@@ -1,15 +1,15 @@
 const React = require('react'); //eslint-disable-line no-unused-vars
 const deepEqual = require('deep-eql');
 
-module.exports = function ReduxLoader(_options = {}) {
+module.exports = function ReactLoader(_options = {}) {
 	const options = Object.assign({
 		component: null,
 		errorComponent: () => (<div>Impossible to fetch the data requested.</div>),
 		loadingComponent: () => (<div>Loading...</div>),
 		componentDidMount: () => {},
 		componentWillUnmount: () => {},
-		isLoaded: (props) => false,
-		isError: (props) => false
+		isLoaded: () => false,
+		isError: () => false
 	}, _options);
 	
 	if (!options.component) {
@@ -34,14 +34,14 @@ module.exports = function ReduxLoader(_options = {}) {
 		render() {
 			const props = this.props;
 			
-			if (options.isLoaded(props)) {
-				return (
-					<Component {...props}/>
-				);
-			}
-			else if (options.isError(props)) {
+			if (options.isError(props)) {
 				return (
 					<ErrorComponent {...props}/>
+				);
+			}
+			else if (options.isLoaded(props)) {
+				return (
+					<Component {...props}/>
 				);
 			}
 			else {
@@ -52,16 +52,10 @@ module.exports = function ReduxLoader(_options = {}) {
 		}
 		
 		shouldComponentUpdate(nextProps) {
-			try {
-				return !deepEqual(this.props, nextProps);
-			}
-			catch (e) {
-				console.warn(e);
-				return true;
-			}
+			return !deepEqual(this.props, nextProps);
 		}
 	}
-	Loader.displayName = `ReduxLoader(${Component.displayName || Component.name})`;
+	Loader.displayName = `ReactLoader(${Component.displayName || Component.name})`;
 	Loader.propTypes = Component.propTypes;
 	
 	return Loader;

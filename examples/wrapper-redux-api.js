@@ -1,9 +1,9 @@
-const ReduxLoader = require('redux-loader-component');
+const ReactLoader = require('react-loader-component');
 const ReactRedux = require('react-redux');
 const LoadingView = require('./my-loading-view');
 const store = require('./my-redux-store');
 
-module.exports = function MyReduxLoader(options) {
+module.exports = function MyReactLoader(options) {
 	// Based on the options provided, create the options used by the loader
 	const loaderOptions = {
 		component: options.component,
@@ -33,12 +33,14 @@ module.exports = function MyReduxLoader(options) {
 		}
 	};
 	
-	const Out = ReduxLoader(loaderOptions);
+	const Out = ReactLoader(loaderOptions);
+	
+	//Connect directly with redux using the `stores` option
 	return ReactRedux.connect(
 		state => {
 			const props = {};
-			options.stores.forEach((storeName) => {
-				props[storeName] = state[storeName]
+			options.stores.forEach(storeName => {
+				props[storeName] = state[storeName];
 			});
 		}
 	)(Out);

@@ -1,8 +1,9 @@
 {
-  "name": "redux-loader-component",
+  "name": "react-loader-component",
+  "private": true,
   "version": "1.0.0",
   "description": "A React higher order component that dispatches actions and renders loading/error states",
-  "main": "src/redux-loader.js",
+  "main": "src/react-loader.js",
   "scripts": {
     "pretest": "node_modules/.bin/eslint .",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register tests",
@@ -11,7 +12,7 @@
     "preversion": "npm test",
     "precompile": "npm test",
     "compile": "rimraf lib/* && babel src -d lib",
-    "prepublish": "npm run compile"
+    "prepublishOnly": "npm run compile"
   },
   "keywords": [
     "react",
@@ -25,7 +26,6 @@
   "license": "MIT",
   "dependencies": {
     "deep-eql": "^3.0.0",
-    "prop-types": "^15.5.10",
     "react": "^15.0.0"
   },
   "devDependencies": {
@@ -35,13 +35,24 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.1",
+    "chai-enzyme": "^0.8.0",
     "codecov": "^2.3.0",
+    "dirty-chai": "^2.0.1",
+    "enzyme": "^2.9.1",
     "eslint": "^3.19.0",
     "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "^7.0.1",
-    "eslint-plugin-security": "^1.3.0",
+    "eslint-plugin-react": "^7.2.1",
+    "eslint-plugin-react-native": "^3.0.1",
+    "eslint-plugin-security": "^1.4.0",
     "isparta": "^4.0.0",
+    "jsdom": "^11.1.0",
+    "jsdom-global": "^3.0.2",
     "mocha": "^3.5.0",
-    "rimraf": "^2.6.1"
+    "react-dom": "^15.5.4",
+    "react-test-renderer": "^15.5.4",
+    "rimraf": "^2.6.1",
+    "sinon": "^2.2.0",
+    "sinon-chai": "^2.13.0",
+    "webpack": "^3.5.5"
   }
 }
