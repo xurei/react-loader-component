@@ -75,29 +75,9 @@ MyComponent = ReactLoader({
 });
 ```
 
-#### Wrap it for easier use !
+### Wrap it for easier use !
 If you plan to use this component for a big project, I suggest you create a wrapper around it, 
-to simplify the component for you use case. 
+to simplify the component for your use case. 
 
 You can find an example using [redux-api](https://www.npmjs.com/package/redux-api) in [examples/wrapper-redux-api.js](examples/wrapper-redux-api.js).
 
-Using this example, you can call the loader like this :
-```javascript
-const ReactLoader = require('react-loader-component');
-const reduxActions = require('./my-redux-actions');
-const store = require('./my-redux-store');
-const ReduxApiLoader = require('./redux-api-loader-component');
-
-class MyPureComponent extends React.Component {
-    /* ... */
-}
-
-MyPureComponent = ReduxApiLoader({
-    component: MyPureComponent,
-    errorComponent: () => (<div>Oh no ! There was an error :-(</div>),
-    stores: [ 
-        'rest_endpoint_1',  
-        'rest_endpoint_2'
-    ]
-});
-```

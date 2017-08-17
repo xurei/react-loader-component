@@ -3,7 +3,7 @@ const ReactRedux = require('react-redux');
 const LoadingView = require('./my-loading-view');
 const store = require('./my-redux-store');
 
-module.exports = function MyReactLoader(options) {
+const ReduxApiLoader = module.exports = function ReduxApiLoader(options) {
 	// Based on the options provided, create the options used by the loader
 	const loaderOptions = {
 		component: options.component,
@@ -45,3 +45,19 @@ module.exports = function MyReactLoader(options) {
 		}
 	)(Out);
 };
+
+//----------------------------------------------------------------------------------------------------------------------
+
+// Usage example :
+class MyPureComponent extends React.Component {
+	/* ... */
+}
+
+MyPureComponent = ReduxApiLoader({
+	component: MyPureComponent,
+	errorComponent: () => (<div>Oh no ! There was an error :-(</div>),
+	stores: [
+		'rest_endpoint_1',
+		'rest_endpoint_2'
+	]
+});
