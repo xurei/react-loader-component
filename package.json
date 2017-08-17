@@ -1,7 +1,6 @@
 {
   "name": "react-loader-component",
-  "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "A React higher order component that dispatches actions and renders loading/error states",
   "main": "src/react-loader.js",
   "scripts": {
