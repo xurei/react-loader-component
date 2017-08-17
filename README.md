@@ -17,8 +17,8 @@ MyPureComponent = ReactLoader({
     componentDidMount: (props) => {
         store.dispatch(reduxActions.myAction(props.some_data));
     },
-    isLoaded: (props) => props.challenges && !props.challenges.loading && !!props.challenges.sync,
-    isError: (props) => props.challenges && !!props.challenges.error
+    isLoaded: (props) => props.some_data && !props.some_data.loading && !!props.some_data.sync,
+    isError: (props) => props.some_data && !!props.some_data.error
 });
 ```
 
