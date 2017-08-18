@@ -68,7 +68,7 @@ module.exports = ReduxApiLoader;
 //----------------------------------------------------------------------------------------------------------------------
 
 // Usage example :
-class MyPureComponent extends React.Component {
+class MyPureComponent extends React.Component { //eslint-disable-line no-unused-vars
 	/* ... */
 }
 
@@ -78,10 +78,9 @@ MyPureComponent = ReduxApiLoader({
 	stores: [
 		{ name: 'rest_endpoint_1' },
 		{ name: 'rest_endpoint_2', args: {
-				pathvars: { id: 42 },
-				body: {}
-			}
-		},
+			pathvars: { id: 42 },
+			body: {}
+		}},
 		{ name: 'rest_endpoint_3', args: (props) => ({
 			pathvars: { some_pathvar: props.some_prop },
 			body: { some_body: props.some_prop },
