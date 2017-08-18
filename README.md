@@ -28,9 +28,15 @@ MyPureComponent = ReactLoader({
 });
 ```
 
-### API
+## Wrap it for easier use !
+If you plan to use this component for a big project, I suggest you create a wrapper around it, 
+to simplify the component for your use case. 
 
-#### `ReactLoader(options)`
+You can find an example using [redux-api](https://www.npmjs.com/package/redux-api) in [examples/wrapper-redux-api.js](examples/wrapper-redux-api.js).
+
+## API
+
+### `ReactLoader(options)`
 - `options` : Object
   - `component` **required** : 
   
@@ -64,9 +70,9 @@ MyPureComponent = ReactLoader({
     defines the condition on the props to render the `errorComponent`.
     
     
-### Examples
+## Examples
 
-#### With [redux-api](https://www.npmjs.com/package/redux-api)
+### With [redux-api](https://www.npmjs.com/package/redux-api)
 ```javascript
 const LoadingView = require('./my-loading-view');
 MyComponent = ReactLoader({
@@ -80,10 +86,3 @@ MyComponent = ReactLoader({
     isError: (props) => props.rest_endpoint && !!props.rest_endpoint.error
 });
 ```
-
-### Wrap it for easier use !
-If you plan to use this component for a big project, I suggest you create a wrapper around it, 
-to simplify the component for your use case. 
-
-You can find an example using [redux-api](https://www.npmjs.com/package/redux-api) in [examples/wrapper-redux-api.js](examples/wrapper-redux-api.js).
-
