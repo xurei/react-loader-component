@@ -28,7 +28,7 @@ MyPureComponent = ReactLoader({
 });
 ```
 
-## Wrap it for easier use !
+### Wrap it for easier use !
 If you plan to use this component for a big project, I suggest you create a wrapper around it, 
 to simplify the component for your use case. 
 
@@ -53,9 +53,9 @@ You can find an example using [redux-api](https://www.npmjs.com/package/redux-ap
     component to render when the state of the store does not match `isError` nor `isLoading` (typically, the "loading" state).
     The props passed to the loader are forwarded to the error component.
     
-  - `componentDidMount(props)` : 
+  - `componentWillUpdate(props)` : 
   
-    function called when the component is mounted. Typically the place where you put you `dispatch()` methods.
+    function called when the component is mounted or has updated its props. Typically the place where you put your `dispatch()` methods in a Redux environment.
     
   - `componentWillUnmount(props)` : 
   

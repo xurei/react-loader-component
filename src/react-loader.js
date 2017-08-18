@@ -6,7 +6,7 @@ module.exports = function ReactLoader(_options = {}) {
 		component: null,
 		errorComponent: () => (<div>Impossible to fetch the data requested.</div>),
 		loadingComponent: () => (<div>Loading...</div>),
-		componentDidMount: () => {},
+		componentWillUpdate: () => {},
 		componentWillUnmount: () => {},
 		isLoaded: () => false,
 		isError: () => false
@@ -20,12 +20,15 @@ module.exports = function ReactLoader(_options = {}) {
 	const ErrorComponent = options.errorComponent;
 	const LoadingComponent = options.loadingComponent;
 	
-	const componentDidMount = options.componentDidMount;
+	const componentWillUpdate = options.componentWillUpdate;
 	const componentWillUnmount = options.componentWillUnmount;
 	
 	class Loader extends React.Component {
 		componentDidMount() {
-			componentDidMount(this.props);
+			componentWillUpdate(this.props);
+		}
+		componentWillUpdate(nextProps) {
+			componentWillUpdate(nextProps);
 		}
 		componentWillUnmount() {
 			componentWillUnmount(this.props);
