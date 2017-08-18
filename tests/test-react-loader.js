@@ -34,6 +34,32 @@ describe('ReactLoader', function() {
 			//Verify (2)
 			expect(fn2).to.throw(/No component defined. Cannot render/);
 		});
+		
+		it('is not rendered at all until isLoaded returns true', function() {
+			//Prepare
+			const Component = ReactLoader({
+				//this should throw if the component is rendered and data is not set, which is the condition for isLoaded to be true
+				component: (props) => (<div>{props.data.value}</div>),
+				loadingComponent: (props) => (<div>Loading</div>),
+				errorComponent: (props) => (<div>Error</div>),
+				isError: () => false,
+				isLoaded: (props) => !!props.data,
+			});
+			
+			//Execute (1)
+			const component = mount(
+				<Component prop1="ok" prop2={42}/>
+			);
+			
+			//Verify (1)
+			expect(component.html()).to.eq('<div>Loading</div>');
+			
+			//Execute (2)
+			component.setProps({data: {value: 'hello world'}});
+			
+			//Verify (2)
+			expect(component.html()).to.eq('<div>hello world</div>');
+		});
 	});
 	
 	describe('errorComponent', function() {
