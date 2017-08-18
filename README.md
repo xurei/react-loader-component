@@ -32,7 +32,7 @@ MyPureComponent = ReactLoader({
 If you plan to use this component for a big project, I suggest you create a wrapper around it, 
 to simplify the component for your use case. 
 
-You can find an example using [redux-api](https://www.npmjs.com/package/redux-api) in [examples/wrapper-redux-api.js](examples/wrapper-redux-api.js).
+You can find an example using [redux-api](https://www.npmjs.com/package/redux-api) in [examples/react-loader-redux-api.js](examples/react-loader-redux-api.js).
 
 ## API
 
