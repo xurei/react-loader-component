@@ -2,7 +2,7 @@
   "name": "react-loader-component",
   "version": "1.0.1",
   "description": "A React higher order component that dispatches actions and renders loading/error states",
-  "main": "src/react-loader.js",
+  "main": "lib/react-loader.js",
   "scripts": {
     "pretest": "node_modules/.bin/eslint .",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register tests",
