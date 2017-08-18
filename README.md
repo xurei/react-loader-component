@@ -4,7 +4,7 @@ A React higher order component that dispatches actions and renders loading/error
 
 [![npm](https://img.shields.io/npm/v/react-loader-component.svg)](https://www.npmjs.com/package/react-loader-component)
 [![wercker status](https://app.wercker.com/status/c154a6be090561352ba4a13b6090fcf2/s/master "wercker status")](https://app.wercker.com/project/byKey/c154a6be090561352ba4a13b6090fcf2)
-[![Codecov](https://img.shields.io/codecov/c/github/xurei/react-loader-component.svg)]()
+[![Codecov](https://img.shields.io/codecov/c/github/xurei/react-loader-component.svg)](https://codecov.io/gh/xurei/react-loader-component)
 [![GitHub issues](https://img.shields.io/github/issues/xurei/react-loader-component.svg)](https://github.com/xurei/react-loader-component/issues)
 [![Codacy grade](https://img.shields.io/codacy/grade/97487e86a6644e8fb0f64cf4c2637ee1.svg)](https://www.codacy.com/app/xurei/react-loader-component)
 
