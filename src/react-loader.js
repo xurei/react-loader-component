@@ -24,7 +24,7 @@ module.exports = function ReactLoader(_options = {}) {
 	const componentWillUnmount = options.componentWillUnmount;
 	
 	class Loader extends React.Component {
-		componentDidMount() {
+		componentWillMount() {
 			componentWillUpdate(this.props);
 		}
 		componentWillUpdate(nextProps) {
