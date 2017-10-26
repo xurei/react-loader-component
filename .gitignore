@@ -3,4 +3,3 @@ node_modules
 *.iml
 /lab
 /coverage
-/lib
