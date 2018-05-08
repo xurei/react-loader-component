@@ -1,6 +1,6 @@
 {
   "name": "react-loader-component",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A React higher order component that dispatches actions and renders loading/error states",
   "main": "lib/react-loader.js",
   "scripts": {
