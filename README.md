@@ -20,7 +20,7 @@ class MyPureComponent extends React.Component {
 
 MyPureComponent = ReactLoader({
     component: MyPureComponent,
-    componentDidMount: (props) => {
+    componentWillMount: (props) => {
         store.dispatch(reduxActions.myAction(props.some_data));
     },
     isLoaded: (props) => props.some_data && !props.some_data.loading && !!props.some_data.sync,
@@ -53,9 +53,9 @@ You can find an example using [redux-api](https://www.npmjs.com/package/redux-ap
     component to render when the state of the store does not match `isError` nor `isLoading` (typically, the "loading" state).
     The props passed to the loader are forwarded to the error component.
     
-  - `componentWillUpdate(props)` : 
+  - `componentWillMount(props)`/`componentWillUpdate(props)` : 
   
-    function called when the component is mounted or has updated its props. Typically the place where you put your `dispatch()` methods in a Redux environment.
+    Same behavior as the React functions of the same name. Typically the place where you put your asynchronous calls.
     
   - `componentWillUnmount(props)` : 
   
@@ -70,19 +70,66 @@ You can find an example using [redux-api](https://www.npmjs.com/package/redux-ap
     defines the condition on the props to render the `errorComponent`.
     
     
-## Examples
-
-### With [redux-api](https://www.npmjs.com/package/redux-api)
+### Full example with `react-redux`
 ```javascript
-const LoadingView = require('./my-loading-view');
-MyComponent = ReactLoader({
-    component: MyComponent,
+const React = require('react');
+const ReactDOM = require('react-dom');
+const redux = require('redux');
+const ReactRedux = require('react-redux');
+const ReactLoader = require('react-loader-component');
+
+//Some redux boilerplate here
+const payload = (state=null, action) => {
+    switch (action.type) {
+        case 'SET':
+            return action.data;
+    }
+    return state;
+};
+const store = redux.createStore(redux.combineReducers({payload}));
+
+//A fake service simulating an async call
+const MyService = {
+    asyncCall() {
+        //Simulating async call with setTimeout
+        setTimeout(() => {
+            store.dispatch({type:'SET', data:'It works!'});
+        }, 3000);
+    }
+};
+
+//Your pure component
+const MyPureComponent = (props) => (
+    <div>Content loaded</div>
+);
+
+//It gets wrapper around the ReactLoader
+let MyComponent = ReactLoader({
+    component: MyPureComponent,
     errorComponent: (props) => (<div>An error occured : {JSON.stringify(props.rest_endpoint.error)}</div>),
-    loadingComponent: LoadingView,
-    componentDidMount: () => {
-        store.dispatch(store.actions.rest_endpoint());
+    loadingComponent: (props) => (<div>Loading. Content takes 3s to load</div>),
+    componentWillMount: () => {
+        MyService.asyncCall();
     },
-    isLoaded: (props) => props.rest_endpoint && !props.rest_endpoint.loading && !!props.rest_endpoint.sync,
-    isError: (props) => props.rest_endpoint && !!props.rest_endpoint.error
+    isLoaded: (props) => props.payload !== null,
+    isError: (props) => false
 });
+
+//Connect to the Redux store
+//It is important to do that AFTER having wrapped the component with ReactLoader.
+MyComponent = ReactRedux.connect(
+    state => ({
+        payload: state.payload,
+    }),
+    dispatch => ({
+    })
+)(MyComponent);
+
+//Render the app as usual
+const Provider = ReactRedux.Provider;
+ReactDOM.render((
+    <Provider store={store}>
+        <MyComponent/>
+    </Provider>
+), document.getElementById('app'));
 ```

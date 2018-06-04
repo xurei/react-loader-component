@@ -155,13 +155,13 @@ describe('ReactLoader', function() {
 		});
 	});
 	
-	describe('componentWillUpdate', function() {
-		it('should be called on mount and on props change and have the props as first argument', function() {
+	describe('componentWillMount', function() {
+		it('should be called on mount only and have the props as first argument', function() {
 			//Prepare
 			const spy = sinon.spy();
 			const Component = ReactLoader({
 				component: FakeComponent,
-				componentWillUpdate: spy
+				componentWillMount: spy
 			});
 			
 			//Execute (1)
@@ -183,10 +183,51 @@ describe('ReactLoader', function() {
 			});
 			
 			//Verify
-			expect(spy).to.have.been.calledTwice();
+			expect(spy).to.have.been.calledOnce();
+		});
+	});
+	
+	describe('componentWillUpdate', function() {
+		it('should be called on props change and have the props as first argument', function() {
+			//Prepare
+			const spy = sinon.spy();
+			const Component = ReactLoader({
+				component: FakeComponent,
+				componentWillUpdate: spy
+			});
+			
+			//Execute (1)
+			const component = mount(
+				<Component prop1="ok" prop2={42}/>
+			);
+			
+			//Verify (1)
+			expect(spy).to.have.not.been.called();
+			
+			//Execute (2)
+			component.setProps({
+				prop1: 'ko',
+				prop2: 24,
+			});
+			
+			//Verify (2)
+			expect(spy).to.have.been.calledOnce();
 			expect(spy).to.have.been.calledWithExactly({
 				prop1: 'ko',
 				prop2: 24,
+			});
+			
+			//Execute (3)
+			component.setProps({
+				prop1: 'lol',
+				prop2: 1,
+			});
+			
+			//Verify (3)
+			expect(spy).to.have.been.calledTwice();
+			expect(spy).to.have.been.calledWithExactly({
+				prop1: 'lol',
+				prop2: 1,
 			});
 		});
 	});
