@@ -1,15 +1,9 @@
 box: node:8.11.1
 build:
   steps:
-    - script:
-        name: Install dependencies
-        code: |
-          npm install
+    - npm-install
 
-    - script:
-        name: Tests
-        code: |
-          npm test
+    - npm-test
 
     - script:
         name: Code coverage
