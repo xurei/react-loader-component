@@ -68,17 +68,18 @@ module.exports = function ReactLoader(_options = {}) {
 			}
 			
 			prom.then((data) => {
-				debug('Loaded !');
+				debug('Loaded !', this.props);
 				this.setState({status: STATUS_LOADED, data: data});
 				return data;
 			})
 			.catch(e => {
-				debug('Error !');
+				debug('Error !', this.props);
 				this.setState({status: STATUS_ERROR, error: e});
 			});
 		}
 		
 		componentWillUnmount() {
+			debug('unmount !', this.props);
 			componentWillUnmount(this.props);
 		}
 		
