@@ -89,7 +89,8 @@ describe('ReactLoader', function() {
 	describe('errorComponent', function() {
 		it('is not required', function() {
 			//Prepare
-			const Component = MyReactLoader({
+			const Component = ReactLoader({
+				component: (props) => (<div><span>Loaded !</span><span>{props.data}</span></div>),
 				load: () => Promise.reject('error'),
 			});
 			
@@ -163,7 +164,8 @@ describe('ReactLoader', function() {
 	describe('loadingComponent', function() {
 		it('is not required', function() {
 			//Prepare
-			const Component = MyReactLoader({
+			const Component = ReactLoader({
+				component: (props) => (<div><span>Loaded !</span><span>{props.data}</span></div>),
 				load: () => Promise.reject('error'),
 			});
 			
