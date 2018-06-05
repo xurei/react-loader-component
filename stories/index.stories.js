@@ -10,18 +10,24 @@ const MyPureComponent = (props) => (
 	<div>Content loaded : {props.data}</div>
 );
 
-//storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
-
 storiesOf('ReactLoader')
-.add('Full example', () => {
-	const MyComponent = ReactLoader({
+.add('Minimal example', () => {
+	//The pure component
+	const MyPureComponent = (props) => (
+		<div>Content loaded: {JSON.stringify(props)}</div>
+	);
+	
+	//It gets wrapper around the ReactLoader
+	let MyComponent = ReactLoader({
 		component: MyPureComponent,
-		resultProp: 'data',
 		errorComponent: (props) => (<div>An error occured : {JSON.stringify(props.rest_endpoint.error)}</div>),
-		loadingComponent: (props) => (<div>Loading. Content takes 2s to load</div>),
-		componentDidMount: () => {
-			return Promise.resolve().then(() => promsleep(2000, 42));
-		}
+		loadingComponent: () => (<div>Loading. Content takes 2s to load</div>),
+		load: (props) => {
+			//Faking an async call by waiting 2 seconds
+			return new Promise((resolve, reject) => {
+			    setTimeout(() => resolve(42), 2000)
+			});
+		},
 	});
 	
 	return (
@@ -34,7 +40,7 @@ storiesOf('ReactLoader')
 		resultProp: 'data',
 		errorComponent: (props) => (<div>An error occured : {JSON.stringify(props.data)}</div>),
 		loadingComponent: (props) => (<div>Loading. Content takes 2s to load</div>),
-		componentDidMount: () => {
+		load: () => {
 			return Promise.resolve().then(() => promsleep(2000, 42)).then(() => { throw 'my_error_message'; });
 		}
 	});
@@ -54,11 +60,20 @@ storiesOf('ReactLoader')
 		<MyComponent/>
 	);
 })
-.add('ERR Missing componentDidMount', () => {
+.add('ERR Missing load', () => {
 	const MyComponent = ReactLoader({
 		component: MyPureComponent,
-		componentDidMount: () => {
-			//MyService.asyncCall();
+	});
+	
+	return (
+		<MyComponent/>
+	);
+})
+.add('ERR load() does not return a promise', () => {
+	const MyComponent = ReactLoader({
+		component: MyPureComponent,
+		load: () => {
+			return 42;
 		}
 	});
 	

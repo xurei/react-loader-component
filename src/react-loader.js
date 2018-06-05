@@ -15,7 +15,7 @@ module.exports = function ReactLoader(_options = {}) {
 	const options = Object.assign({
 		component: null,
 		load: null,
-		resultProp: null,
+		resultProp: 'data',
 		errorComponent: () => (<div>Impossible to fetch the data requested.</div>),
 		loadingComponent: () => (<div>Loading...</div>),
 		shouldComponentReload: (props, nextProps) => !deepEqual(props, nextProps),
