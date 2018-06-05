@@ -1,3 +1,15 @@
 {
-	"presets": ["react", "es2015"]
+	"presets": [
+		["env", {
+			"targets": {
+				"node": "6",
+				"chrome": "40",
+				"firefox": "40",
+				"ie": "9",
+				"edge": "11"
+			}
+		}],
+		"react"
+	],
+	"plugins": ["transform-inline-environment-variables"]
 }

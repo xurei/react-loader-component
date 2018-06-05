@@ -98,7 +98,7 @@ const MyService = {
     }
 };
 
-//Your pure component
+//The pure component
 const MyPureComponent = (props) => (
     <div>Content loaded</div>
 );
