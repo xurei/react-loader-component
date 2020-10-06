@@ -96,42 +96,32 @@ const MyOtherComponent = MyLoader({
 
 ### `ReactLoader(options)`
 - `options` : Object
-  - `component` **required** : 
-  
-    component to render when the state of the store matches `isLoaded`.
-    The props passed to the loader are forwarded to the component.
-    
   - `errorComponent` : 
-  
-    component to render when the state of the store matches `isError`.
+    component to render when the promise returned by `load` throws an error.
     The props passed to the loader are forwarded to the error component.
     
     Default: `() => (<div>Impossible to fetch the data requested.</div>)`
     
   - `loadingComponent` : 
-  
-    component to render when the state of the store does not match `isError` nor `isLoading` (typically, the "loading" state).
+    component to render when the promise is pending.
     The props passed to the loader are forwarded to the error component.
     
     Default: `() => (<div>Loading...</div>)`
     
   - `load(props)` **required** : 
-    
     function called to load whatever you need. It must return a `Promise`.
     
   - `shouldComponentReload(props, nextProps)` : 
-  
-    Should return `true` if the loader should reload the data, i.e. if `load()` has to be called again.
+    should return `true` if the loader should reload the data by calling `load()` again.
     
-    Default: returns `true` iff the props have changed.
+    Default: returns `true` iff the props have deeply changed.
     
   - `componentWillUnmount(props)` : 
-  
-    Same behavior as the React functions of the same name. Can be used to clean up your store.
+    same behavior as the React lifecycle functions of the same name. 
+    Can be used to clean up your store.
     
   - `resultProp` : 
-  
-    Name of the prop where the result of `load()` will be set. Default: `"data"`
+    name of the prop where the result of `load()` will be set. Default: `"data"`
     
 ## Support Open-Source
 Support my work on https://github.com/sponsors/xurei
