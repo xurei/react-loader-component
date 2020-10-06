@@ -43,7 +43,28 @@
 		},
 
 		"coverage": {
-			"plugins": [ "istanbul" ]
+			"plugins": [
+				"istanbul",
+				["@babel/plugin-proposal-decorators", {
+					"decoratorsBeforeExport": false
+				}]
+			]
+		},
+
+		"legacy_decorators": {
+			"plugins": [
+				["@babel/plugin-proposal-decorators", {
+					"legacy": true
+				}]
+			]
+		},
+
+		"development": {
+			"plugins": [
+				["@babel/plugin-proposal-decorators", {
+					"decoratorsBeforeExport": false
+				}]
+			]
 		}
 	}
 }
