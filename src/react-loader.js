@@ -46,7 +46,7 @@ module.exports = function ReactLoader(_options = {}) {
 		constructor(props) {
 			super(props);
 			this.state = {
-				status: STATUS_FETCHING
+				status: STATUS_FETCHING,
 			};
 		}
 

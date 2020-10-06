@@ -75,14 +75,14 @@ describe('ReactLoader', function() {
 			);
 
 			//Verify (1)
-			expect(component.html()).to.eq('<div>Loading</div>');
+			expect(component.update().html()).to.eq('<div>Loading</div>');
 
 			//Execute (2)
 			prom.resolve('hello world');
 
 			//Verify (2)
 			setImmediate(() => {
-				expect(component.html()).to.eq('<div><span>Loaded !</span><span>hello world</span></div>');
+				expect(component.update().html()).to.eq('<div><span>Loaded !</span><span>hello world</span></div>');
 				done();
 			});
 		});
@@ -118,7 +118,7 @@ describe('ReactLoader', function() {
 
 				//Verify
 				setImmediate(() => {
-					expect(component.html()).to.eq('<div>Loading</div>');
+					expect(component.update().html()).to.eq('<div>Loading</div>');
 					done();
 				});
 			});
@@ -137,7 +137,7 @@ describe('ReactLoader', function() {
 
 				//Verify
 				setImmediate(() => {
-					expect(component.html()).to.eq('<div><span>Error:</span><span>error</span></div>');
+					expect(component.update().html()).to.eq('<div><span>Error:</span><span>error</span></div>');
 					done();
 				});
 			});
@@ -156,7 +156,7 @@ describe('ReactLoader', function() {
 
 			//Verify
 				setImmediate(() => {
-					expect(component.html()).to.eq('<div><span>Loaded !</span><span>it works</span></div>');
+					expect(component.update().html()).to.eq('<div><span>Loaded !</span><span>it works</span></div>');
 					done();
 				});
 			});
@@ -193,7 +193,7 @@ describe('ReactLoader', function() {
 
 				//Verify
 				setImmediate(() => {
-					expect(component.html()).to.eq('<div>Loading</div>');
+					expect(component.update().html()).to.eq('<div>Loading</div>');
 					done();
 				});
 			});
@@ -212,7 +212,7 @@ describe('ReactLoader', function() {
 
 				//Verify
 				setImmediate(() => {
-					expect(component.html()).to.eq('<div><span>Error:</span><span>error</span></div>');
+					expect(component.update().html()).to.eq('<div><span>Error:</span><span>error</span></div>');
 					done();
 				});
 			});
@@ -231,7 +231,7 @@ describe('ReactLoader', function() {
 
 			//Verify
 				setImmediate(() => {
-					expect(component.html()).to.eq('<div><span>Loaded !</span><span>it works</span></div>');
+					expect(component.update().html()).to.eq('<div><span>Loaded !</span><span>it works</span></div>');
 					done();
 				});
 			});
@@ -394,23 +394,23 @@ describe('ReactLoader', function() {
 
 			//Verify (1)
 			Promise.resolve()
-			.then(() => expect(component.html()).to.eq('<div>Loading</div>'))
+			.then(() => expect(component.update().html()).to.eq('<div>Loading</div>'))
 
 			//Execute (2)
 			.then(() => promise.resolve('ok'))
 
 			//Verify (2)
-			.then(() => expect(component.html()).to.eq('<div><span>Loaded !</span><span>ok</span></div>'))
+			.then(() => expect(component.update().html()).to.eq('<div><span>Loaded !</span><span>ok</span></div>'))
 
 			//Execute (3)
 			.then(() => component.setProps({prop1: 'ok', prop2: 1}))
 
 			//Verify (3)
-			.then(() => expect(component.html()).to.eq('<div>Loading</div>'))
+			.then(() => expect(component.update().html()).to.eq('<div>Loading</div>'))
 
 			.then(() => promise.resolve('ok2'))
 			.then(() => promsleep(10))
-			.then(() => expect(component.html()).to.eq('<div><span>Loaded !</span><span>ok2</span></div>'))
+			.then(() => expect(component.update().html()).to.eq('<div><span>Loaded !</span><span>ok2</span></div>'))
 
 			//All done
 			.then(() => done())
@@ -421,13 +421,13 @@ describe('ReactLoader', function() {
 			component.setProps({loaded: false, error: true});
 
 			//Verify (3)
-			expect(component.html()).to.eq('<div>Error</div>');
+			expect(component.update().html()).to.eq('<div>Error</div>');
 
 			//Execute (3)
 			component.setProps({loaded: true, error: true});
 
 			//Verify (3)
-			expect(component.html()).to.eq('<div>Error</div>');*/
+			expect(component.update().html()).to.eq('<div>Error</div>');*/
 		})
 	});
 });

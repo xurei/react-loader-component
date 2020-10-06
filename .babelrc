@@ -15,7 +15,7 @@
 		"@babel/preset-react"
 	],
 
-	"plugins": [ "istanbul", "transform-inline-environment-variables" ],
+	"plugins": [ "transform-inline-environment-variables" ],
 
 	"env": {
 		"module": {
@@ -40,6 +40,10 @@
 			"plugins": [
 				"@babel/plugin-proposal-class-properties"
 			]
+		},
+
+		"coverage": {
+			"plugins": [ "istanbul" ]
 		}
 	}
 }
