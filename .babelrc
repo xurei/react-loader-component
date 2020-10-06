@@ -24,14 +24,9 @@
 					"@babel/preset-env",
 					{
 						"modules": false,
-						"corejs": 3,
-						"useBuiltIns": "usage",
+						"useBuiltIns": false,
 						"targets": {
-							"node": "6",
-							"chrome": "40",
-							"firefox": "40",
-							"ie": "10",
-							"edge": "12"
+							"esmodules": true
 						}
 					}
 				],
