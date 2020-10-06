@@ -49,7 +49,7 @@ storiesOf('ReactLoader - Example SWAPI')
 		loadingComponent: (props) => (<div>Loading {props.url}... Please wait</div>),
 		load: (props) => {
 			return Promise.all([
-				fetch(`https://swapi.dev/api/${props.url}`),
+				fetch(`https://swapi.dev/api/${props.url}/`),
 				promsleep(2000)
 			])
 			.then(([response, _]) => {
