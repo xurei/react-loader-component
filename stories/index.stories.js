@@ -5,11 +5,6 @@ import { storiesOf } from '@storybook/react';
 import ReactLoader from '../src/react-loader';
 import promsleep from 'promsleep';
 
-//The pure component
-const MyPureComponent = (props) => (
-	<div>Content loaded : {props.data}</div>
-);
-
 storiesOf('ReactLoader')
 .add('Minimal example', () => {
 	//The pure component
@@ -35,6 +30,11 @@ storiesOf('ReactLoader')
 	);
 })
 .add('Full example with error', () => {
+	//The pure component
+	const MyPureComponent = (props) => (
+		<div>Content loaded : {props.data}</div>
+	);
+
 	const MyComponent = ReactLoader({
 		component: MyPureComponent,
 		resultProp: 'data',
@@ -48,4 +48,38 @@ storiesOf('ReactLoader')
 	return (
 		<MyComponent/>
 	);
+})
+.add('ERR Missing component', () => {
+	const MyComponent = ReactLoader({
+		componentDidMount: () => {
+			//MyService.asyncCall();
+		}
+	});
+
+	return (
+		<MyComponent/>
+	);
+})
+.add('ERR Missing load', () => {
+	const MyComponent = ReactLoader({
+		component: (props) => (<div>Content loaded : {props.data}</div>),
+	});
+
+	return (
+		<MyComponent/>
+	);
+})
+.add('ERR load() does not return a promise', () => {
+	const MyComponent = ReactLoader({
+		component: (props) => (<div>Content loaded : {props.data}</div>),
+		load: () => {
+			return 42;
+		}
+	});
+
+	return (
+		<MyComponent/>
+	);
 });
+
+require('./decorators.stories');
