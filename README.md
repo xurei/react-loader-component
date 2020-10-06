@@ -28,6 +28,8 @@ const MyComponent = ReactLoader({
 
 ### As a decorator
 You need [@babel/plugin-proposal-decorators](https://babeljs.io/docs/en/next/babel-plugin-proposal-decorators.html) for this to work.
+You can use it both in legacy or stage-2 mode. 
+Check @babel/plugin-proposal-decorators documentation for details.
 
 ```jsx
 import ReactLoader from 'react-loader-component';
