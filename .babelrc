@@ -1,15 +1,45 @@
 {
 	"presets": [
-		["env", {
+		["@babel/preset-env", {
+			"modules": "commonjs",
+			"corejs": 3,
+			"useBuiltIns": "usage",
 			"targets": {
 				"node": "6",
 				"chrome": "40",
 				"firefox": "40",
-				"ie": "9",
-				"edge": "11"
+				"ie": "10",
+				"edge": "12"
 			}
 		}],
-		"react"
+		"@babel/preset-react"
 	],
-	"plugins": ["transform-inline-environment-variables"]
+
+	"plugins": [ "istanbul", "transform-inline-environment-variables" ],
+
+	"env": {
+		"module": {
+			"presets": [
+				[
+					"@babel/preset-env",
+					{
+						"modules": false,
+						"corejs": 3,
+						"useBuiltIns": "usage",
+						"targets": {
+							"node": "6",
+							"chrome": "40",
+							"firefox": "40",
+							"ie": "10",
+							"edge": "12"
+						}
+					}
+				],
+				"@babel/preset-react"
+			],
+			"plugins": [
+				"@babel/plugin-proposal-class-properties"
+			]
+		}
+	}
 }

@@ -21,7 +21,7 @@ module.exports = function ReactLoader(_options = {}) {
 		shouldComponentReload: (props, nextProps) => !deepEqual(props, nextProps),
 		componentWillUnmount: () => {},
 	}, _options);
-	
+
 	if (!options.component) {
 		throw new Error('ReactLoader : No component defined. Cannot create');
 	}
@@ -32,16 +32,16 @@ module.exports = function ReactLoader(_options = {}) {
 	if (typeof(options.load) !== 'function') {
 		throw new Error(`${displayName} : load must be a function returning a Promise. Cannot create`);
 	}
-	
+
 	const Component = options.component;
 	const ErrorComponent = options.errorComponent;
 	const LoadingComponent = options.loadingComponent;
-	
+
 	const load = options.load;
 	const componentWillUnmount = options.componentWillUnmount;
 	const shouldComponentReload = options.shouldComponentReload;
 	const resultProp = options.resultProp;
-	
+
 	class Loader extends React.Component {
 		constructor(props) {
 			super(props);
@@ -49,7 +49,7 @@ module.exports = function ReactLoader(_options = {}) {
 				status: STATUS_FETCHING
 			};
 		}
-		
+
 		componentDidMount() {
 			this.doLoad();
 		}
@@ -58,7 +58,7 @@ module.exports = function ReactLoader(_options = {}) {
 				this.doLoad();
 			}
 		}
-		
+
 		doLoad() {
 			debug('doLoad', this.props);
 			this.setState({status: STATUS_FETCHING});
@@ -66,7 +66,7 @@ module.exports = function ReactLoader(_options = {}) {
 			if (!isPromise(prom)) {
 				throw new TypeError(`${displayName} : load(props) must return a Promise/A+ compliant object`);
 			}
-			
+
 			prom.then((data) => {
 				debug('Loaded !', this.props);
 				this.setState({status: STATUS_LOADED, data: data});
@@ -77,16 +77,16 @@ module.exports = function ReactLoader(_options = {}) {
 				this.setState({status: STATUS_ERROR, error: e});
 			});
 		}
-		
+
 		componentWillUnmount() {
 			debug('unmount !', this.props);
 			componentWillUnmount(this.props);
 		}
-		
+
 		render() {
 			debug('render');
 			const props = this.props;
-			
+
 			if (this.state.status === STATUS_ERROR) {
 				const forwardProps = Object.assign({}, props);
 				if (resultProp) {
@@ -112,14 +112,13 @@ module.exports = function ReactLoader(_options = {}) {
 				);
 			}
 		}
-		
+
 		shouldComponentUpdate(nextProps, nextState) {
-			debug('shouldUpdate');
 			return !deepEqual(this.props, nextProps) || !deepEqual(this.state, nextState);
 		}
 	}
 	Loader.displayName = displayName;
 	Loader.propTypes = Component.propTypes;
-	
+
 	return Loader;
 };

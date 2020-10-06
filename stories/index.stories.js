@@ -16,7 +16,7 @@ storiesOf('ReactLoader')
 	const MyPureComponent = (props) => (
 		<div>Content loaded: {JSON.stringify(props)}</div>
 	);
-	
+
 	//It gets wrapper around the ReactLoader
 	let MyComponent = ReactLoader({
 		component: MyPureComponent,
@@ -29,7 +29,7 @@ storiesOf('ReactLoader')
 			});
 		},
 	});
-	
+
 	return (
 		<MyComponent/>
 	);
@@ -44,39 +44,7 @@ storiesOf('ReactLoader')
 			return Promise.resolve().then(() => promsleep(2000, 42)).then(() => { throw 'my_error_message'; });
 		}
 	});
-	
-	return (
-		<MyComponent/>
-	);
-})
-.add('ERR Missing component', () => {
-	const MyComponent = ReactLoader({
-		componentDidMount: () => {
-			//MyService.asyncCall();
-		}
-	});
-	
-	return (
-		<MyComponent/>
-	);
-})
-.add('ERR Missing load', () => {
-	const MyComponent = ReactLoader({
-		component: MyPureComponent,
-	});
-	
-	return (
-		<MyComponent/>
-	);
-})
-.add('ERR load() does not return a promise', () => {
-	const MyComponent = ReactLoader({
-		component: MyPureComponent,
-		load: () => {
-			return 42;
-		}
-	});
-	
+
 	return (
 		<MyComponent/>
 	);

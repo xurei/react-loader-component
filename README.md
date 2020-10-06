@@ -8,8 +8,10 @@ A React Higher Order Component that triggers some Promise on mount and display a
 [![GitHub issues](https://img.shields.io/github/issues/xurei/react-loader-component.svg)](https://github.com/xurei/react-loader-component/issues)
 [![Codacy grade](https://img.shields.io/codacy/grade/97487e86a6644e8fb0f64cf4c2637ee1.svg)](https://www.codacy.com/app/xurei/react-loader-component)
 
+[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=<url>)](https://github.com/sponsors/xurei)
+
 ## Usage
-```javascript
+```jsx
 const ReactLoader = require('react-loader-component');
 
 const MyComponent = ReactLoader({
@@ -66,7 +68,7 @@ const MyComponent = ReactLoader({
     
     
 ### Minimal example
-```javascript
+```jsx
 const React = require('react');
 const ReactDOM = require('react-dom');
 const ReactLoader = require('react-loader-component');
@@ -94,3 +96,6 @@ ReactDOM.render((
     <MyComponent/>
 ), document.getElementById('app'));
 ```
+
+## Support Open-Source
+Support my work on https://github.com/sponsors/xurei
