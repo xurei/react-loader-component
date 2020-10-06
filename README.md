@@ -10,19 +10,84 @@ A React Higher Order Component that triggers some Promise on mount and display a
 
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=<url>)](https://github.com/sponsors/xurei)
 
+[Demo](https://react-loader-component.vercel.app)
+
 ## Usage
 ```jsx
-const ReactLoader = require('react-loader-component');
+import ReactLoader from 'react-loader-component';
 
 const MyComponent = ReactLoader({
-    component: (props) => (<p>Hello World</p>),
+    loadingComponent: props => (<p>Loading</p>),
+    errorComponent: props => (<p>There was an error: {JSON.stringify(props.data)}</p>),
+    load: (props) => {
+        //Do some async loading here
+        //Return a Promise
+    },
+})((props) => (<p>Data: {JSON.stringify(props.data)}</p>));
+```
+
+### As a decorator
+You need [@babel/plugin-proposal-decorators](https://babeljs.io/docs/en/next/babel-plugin-proposal-decorators.html) for this to work.
+
+```jsx
+import ReactLoader from 'react-loader-component';
+
+@ReactLoader({
     loadingComponent: props => (<p>Loading</p>),
     errorComponent: props => (<p>There was an error</p>),
     load: (props) => {
         //Do some async loading here
         //Return a Promise
     },
-});
+})
+class MyComponent {
+    render() {
+        return (
+            <p>Hello World</p>
+        );
+    }
+};
+```
+
+## Advanced usage
+This component is meant to be extendable based on your context. 
+You should wrap the call to `ReactLoader` in a fucntion of your own. 
+
+Here is an example:
+```jsx
+function MyLoader(myoptions) {
+    return ReactLoader({
+        errorComponent: MyErrorComponent,
+        loadingComponent: MyLoadingView,
+        resultProp: 'loaderData',
+        shouldComponentReload: myoptions.shouldComponentReload || ((props, nextProps) => !deepEqual(props, nextProps)),
+        load: function myLoadFunction() {
+            // Fetch some data based on myoptions
+            return Promise.resolve(fetchedData);
+        }, 
+    });
+}
+
+@MyLoader({
+    type: 'user',
+    id: 42,
+})
+class MyComponent {
+    render() {
+        return (
+            <p>Hello World</p>
+        );
+    }
+};
+
+const MyOtherComponent = MyLoader({
+    type: 'user',
+    id: 42,
+})((props) => {
+    return (
+        <p>Hello World</p>
+    );
+})
 ```
 
 ## API
@@ -66,36 +131,5 @@ const MyComponent = ReactLoader({
   
     Name of the prop where the result of `load()` will be set. Default: `"data"`
     
-    
-### Minimal example
-```jsx
-const React = require('react');
-const ReactDOM = require('react-dom');
-const ReactLoader = require('react-loader-component');
-
-//The pure component
-const MyPureComponent = (props) => (
-    <div>Content loaded: {JSON.stringify(props)}</div>
-);
-
-//It gets wrapper around the ReactLoader
-let MyComponent = ReactLoader({
-    component: MyPureComponent,
-    errorComponent: (props) => (<div>An error occured : {JSON.stringify(props.data)}</div>),
-    loadingComponent: () => (<div>Loading. Content takes 2s to load</div>),
-    load: (props) => {
-        //Faking an async call by waiting 2 seconds
-        return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(42), 2000)
-        });
-    },
-});
-
-//Render the app as usual
-ReactDOM.render((
-    <MyComponent/>
-), document.getElementById('app'));
-```
-
 ## Support Open-Source
 Support my work on https://github.com/sponsors/xurei

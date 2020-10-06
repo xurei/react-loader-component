@@ -1,7 +1,10 @@
 ## 2.0.0 - 2020-10-06
 BREAKING CHANGES
 - Working with promises
-- Removed `componentWillMount` and `componentWillUpdate`, not compatible with React 17 
+- Support for legacy and stage-2 JS decorators
+- Removed `componentWillMount` and `componentWillUpdate`, not compatible with React 17
+- Removed `component` option and reformatted API as `ReactLoader(options)(Component)` 
+- Add `errorProp`; default to "error"
 
 ## 1.1.2 - 2018-06-04
 - Dependencies update

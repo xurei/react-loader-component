@@ -65,6 +65,14 @@
 					"decoratorsBeforeExport": false
 				}]
 			]
+		},
+
+		"production": {
+			"plugins": [
+				["@babel/plugin-proposal-decorators", {
+					"decoratorsBeforeExport": false
+				}]
+			]
 		}
 	}
 }

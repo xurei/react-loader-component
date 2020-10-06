@@ -9,6 +9,9 @@ import Adapter from 'enzyme-adapter-react-16';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import promsleep from 'promsleep';
+import { describe, it } from 'mocha';
+import ReactLoader from '../src/react-loader';
+import deepEqual from 'deep-eql';
 
 Enzyme.configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
@@ -16,8 +19,6 @@ chai.use(sinonChai);
 chai.use(dirtyChai);
 
 Enzyme.configure({ adapter: new Adapter() })
-
-const ReactLoader = require('../src/react-loader');
 
 const mockPromise = () => {
 	let resolve = null;
@@ -35,10 +36,10 @@ const mockPromise = () => {
 const MyReactLoader = (options) => {
 	return ReactLoader(Object.assign({
 		resultProp: 'data',
-		component: (props) => (<div><span>Loaded !</span><span>{props.data}</span></div>),
+		errorProp: 'error',
 		loadingComponent: () => (<div>Loading</div>),
-		errorComponent: (props) => (<div><span>Error:</span><span>{props.data}</span></div>)
-	}, options));
+		errorComponent: (props) => (<div><span>Error:</span><span>{props.error}</span></div>)
+	}, options))((props) => (<div><span>Loaded !</span><span>{props.data}</span></div>));
 };
 
 /** @namespace describe */
@@ -48,19 +49,19 @@ const MyReactLoader = (options) => {
 
 describe('ReactLoader', function() {
 	describe('component', function() {
-		it('is required', function() {
+		/*it('is required', function() {
 			//Prepare + Execute (1)
-			const fn = () => ReactLoader({});
+			const fn = () => ReactLoader({})();
 
 			//Verify (1)
 			expect(fn).to.throw(/ReactLoader : No component defined. Cannot create/);
 
 			//Prepare + Execute (2)
-			const fn2 = () => ReactLoader();
+			const fn2 = () => ReactLoader()();
 
 			//Verify (2)
 			expect(fn2).to.throw(/ReactLoader : No component defined. Cannot create/);
-		});
+		});*/
 
 		it('is not rendered while the promise has not finished', function(done) {
 			//Prepare
@@ -92,9 +93,8 @@ describe('ReactLoader', function() {
 		it('is not required', function() {
 			//Prepare
 			const Component = ReactLoader({
-				component: (props) => (<div><span>Loaded !</span><span>{props.data}</span></div>),
 				load: () => Promise.reject('error'),
-			});
+			})((props) => (<div><span>Loaded !</span><span>{props.data}</span></div>));
 
 			//Execute
 			mount(
@@ -167,9 +167,8 @@ describe('ReactLoader', function() {
 		it('is not required', function() {
 			//Prepare
 			const Component = ReactLoader({
-				component: (props) => (<div><span>Loaded !</span><span>{props.data}</span></div>),
 				load: () => Promise.reject('error'),
-			});
+			})((props) => (<div><span>Loaded !</span><span>{props.data}</span></div>));
 
 			//Execute
 			mount(
@@ -244,7 +243,7 @@ describe('ReactLoader', function() {
 			const fn = () => MyReactLoader({});
 
 			//Verify
-			expect(fn).to.throw('ReactLoader(component) : No load() defined. Cannot create');
+			expect(fn).to.throw('ReactLoader : No load() defined. Cannot create');
 		});
 
 		it('accepts only functions returning Promise', function() {
@@ -268,8 +267,8 @@ describe('ReactLoader', function() {
 					return Promise.resolve()
 					.then(() => {
 						console.log('Testing', item, '...');
-						expect(testFn(item)).to.throw('ReactLoader(component) : load must be a function returning a Promise. Cannot create');
-						expect(testFn(() => item)).to.throw('ReactLoader(component) : load(props) must return a Promise/A+ compliant object');
+						expect(testFn(item)).to.throw('ReactLoader : load must be a function returning a Promise. Cannot create');
+						expect(testFn(() => item)).to.throw('ReactLoader : load(props) must return a Promise/A+ compliant object');
 					})
 				})
 			);
@@ -297,7 +296,7 @@ describe('ReactLoader', function() {
 				prop1: 'ok',
 				prop2: 42,
 			});
-	});
+		});
 
 		it('should be called again if the props change', function() {
 			//Prepare
@@ -415,19 +414,114 @@ describe('ReactLoader', function() {
 			//All done
 			.then(() => done())
 			.catch(done);
+		})
+	});
 
-			/*
+	describe('As a decorator', function() {
+		it('should be detected and working', function(done) {
+			@ReactLoader({
+				resultProp: 'data',
+				loadingComponent: () => (<div>Loading</div>),
+				errorComponent: (props) => (<div><span>Error:</span><span>{props.data}</span></div>),
+				load: () => {
+					promise = mockPromise();
+					return promise.promise;
+				}
+			})
+			class Component extends React.Component {
+				render() {
+					return <div><span>Loaded !</span><span>{this.props.data}</span></div>;
+				}
+			}
+
+			//Prepare
+			let promise;
+
+			//Execute (1)
+			const component = mount(
+				<Component prop1="ok" prop2={42} />
+			);
+
+			//Verify (1)
+			Promise.resolve()
+			.then(() => expect(component.update().html()).to.eq('<div>Loading</div>'))
+
+			//Execute (2)
+			.then(() => promise.resolve('ok'))
+
+			//Verify (2)
+			.then(() => expect(component.update().html()).to.eq('<div><span>Loaded !</span><span>ok</span></div>'))
+
 			//Execute (3)
-			component.setProps({loaded: false, error: true});
+			.then(() => component.setProps({prop1: 'ok', prop2: 1}))
 
 			//Verify (3)
-			expect(component.update().html()).to.eq('<div>Error</div>');
+			.then(() => expect(component.update().html()).to.eq('<div>Loading</div>'))
+
+			.then(() => promise.resolve('ok2'))
+			.then(() => promsleep(10))
+			.then(() => expect(component.update().html()).to.eq('<div><span>Loaded !</span><span>ok2</span></div>'))
+
+			//All done
+			.then(() => done())
+			.catch(done);
+		})
+	});
+
+	describe('Wrapped with own function', function() {
+		it('should be detected and working', function(done) {
+			function MyLoader(myoptions) {
+			    return ReactLoader({
+			        errorComponent: () => <p>ERR</p>,
+			        loadingComponent: () => <p>LOAD</p>,
+			        resultProp: 'loaderData',
+			        shouldComponentReload: myoptions.shouldComponentReload || ((props, nextProps) => !deepEqual(props, nextProps)),
+			        load: function myLoadFunction() {
+				        promise = mockPromise();
+				        return promise.promise;
+			        },
+			    });
+			}
+
+			@MyLoader({
+			})
+			class Component extends React.Component {
+				render() {
+					return <div><span>Loaded !</span><span>{this.props.loaderData}</span></div>;
+				}
+			}
+
+			//Prepare
+			let promise;
+
+			//Execute (1)
+			const component = mount(
+				<Component prop1="ok" prop2={42} />
+			);
+
+			//Verify (1)
+			Promise.resolve()
+			.then(() => expect(component.update().html()).to.eq('<p>LOAD</p>'))
+
+			//Execute (2)
+			.then(() => promise.resolve('ok'))
+
+			//Verify (2)
+			.then(() => expect(component.update().html()).to.eq('<div><span>Loaded !</span><span>ok</span></div>'))
 
 			//Execute (3)
-			component.setProps({loaded: true, error: true});
+			.then(() => component.setProps({prop1: 'ok', prop2: 1}))
 
 			//Verify (3)
-			expect(component.update().html()).to.eq('<div>Error</div>');*/
+			.then(() => expect(component.update().html()).to.eq('<p>LOAD</p>'))
+
+			.then(() => promise.resolve('ok2'))
+			.then(() => promsleep(10))
+			.then(() => expect(component.update().html()).to.eq('<div><span>Loaded !</span><span>ok2</span></div>'))
+
+			//All done
+			.then(() => done())
+			.catch(done);
 		})
 	});
 });

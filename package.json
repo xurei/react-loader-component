@@ -20,8 +20,8 @@
     "build:module": "BABEL_ENV=module node_modules/.bin/babel src -d lib/module",
     "build:cjs": "node_modules/.bin/babel src -d lib/cjs",
     "prepublishOnly": "npm run build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "BABEL_ENV=development start-storybook -p 6006",
+    "build-storybook": "BABEL_ENV=production build-storybook"
   },
   "keywords": [
     "react",
@@ -76,7 +76,6 @@
     "promsleep": "^1.0.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "react-scripts": "^3.4.3",
     "request": "^2.88.2",
     "rimraf": "^2.7.1",
     "sinon": "^2.2.0",
