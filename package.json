@@ -78,7 +78,7 @@
     "react-dom": "^16.4.0",
     "request": "^2.88.2",
     "rimraf": "^2.7.1",
-    "sinon": "^2.2.0",
-    "sinon-chai": "^2.14.0"
+    "sinon": "^9.2.0",
+    "sinon-chai": "^3.5.0"
   }
 }
