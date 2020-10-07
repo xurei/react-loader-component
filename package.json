@@ -54,7 +54,6 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-istanbul": "^6.0.0",
-    "babel-plugin-transform-decorators": "^6.24.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "chai": "^4.2.0",
     "chai-enzyme": "^1.0.0-beta",
