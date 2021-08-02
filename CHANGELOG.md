@@ -1,3 +1,6 @@
+## 2.0.1 - 2021-08-02
+- Dependencies update : deep-eql@4.0.0, is-promise@4.0.0, react 17 accepted 
+
 ## 2.0.0 - 2020-10-06
 BREAKING CHANGES
 - Working with promises
