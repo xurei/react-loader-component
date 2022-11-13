@@ -50,7 +50,7 @@
     "@istanbuljs/nyc-config-babel": "^3.0.0",
     "@storybook/addon-storysource": "^5.0.26",
     "@storybook/cli": "^5.0.26",
-    "@storybook/react": "^5.0.26",
+    "@storybook/react": "^6.5.13",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-istanbul": "^6.0.0",
